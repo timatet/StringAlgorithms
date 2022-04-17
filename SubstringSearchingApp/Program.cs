@@ -21,15 +21,22 @@ namespace SubstringSearchingApp
         static void Main(string[] args)
         {
             InitAlgms();
-
-            Console.Write("Enter path to text: ");
-            OpenFileDialog openFileDialog = new OpenFileDialog();
-            if (openFileDialog.ShowDialog() != true)
+            string pathToText;
+            if (args.Length > 0)
             {
-                return;
+                pathToText = args[0];
+            }
+            else
+            {
+                Console.Write("Enter path to text: ");
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                if (openFileDialog.ShowDialog() != true)
+                {
+                    return;
+                }
+                pathToText = openFileDialog.FileName;
             }
 
-            string pathToText = openFileDialog.FileName;
             Console.WriteLine(pathToText);
             StreamReader reader = new StreamReader(pathToText);
             string text = reader.ReadToEnd();
@@ -59,7 +66,7 @@ namespace SubstringSearchingApp
         }
         static void SearchString(string pattern, string text)
         {
-            Console.WriteLine("*****************************************");
+            Console.WriteLine("**********************************************************");
             Stopwatch stopwatch = new Stopwatch();
             foreach (var algm in algorithms)
             {
@@ -67,9 +74,20 @@ namespace SubstringSearchingApp
                 var indexes = algm.IndexesOf(pattern, text);
                 stopwatch.Stop();
 
-                Console.WriteLine("{0}: {1}ticks; Found {2} matches.", nameof(algm), stopwatch.ElapsedTicks, indexes.Count());
+                var algmName = algm.GetName();
+                var whiteSpaces = GetWhiteSpaces(25 - algmName.Length);
+                Console.WriteLine("{0}:{1}{2}ticks;\tFound {3} matches.", algmName, whiteSpaces, stopwatch.ElapsedTicks, indexes.Count());
             }
             Console.WriteLine();
+        }
+        static string GetWhiteSpaces(int countWhiteSpaces)
+        {
+            string whiteSpaces = string.Empty;
+            while (countWhiteSpaces-- > 0)
+            {
+                whiteSpaces += " ";
+            }
+            return whiteSpaces;
         }
     }
 }

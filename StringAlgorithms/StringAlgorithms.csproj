@@ -49,7 +49,9 @@
     <Compile Include="Algorithms\RabinKarpAlgorithm.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Anna_Karenina.txt" />
+    <Content Include="FilesWithText\Anna_Karenina.txt" />
+    <Content Include="FilesWithText\Moya_ona.txt" />
+    <Content Include="FilesWithText\WarAndWorldFull.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

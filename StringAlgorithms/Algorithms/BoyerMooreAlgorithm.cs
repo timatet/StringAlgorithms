@@ -4,7 +4,7 @@ namespace StringAlgorithms
 {
     public class BoyerMooreAlgorithm : ISubstringSearch
     {
-        const string NAME = "BoyerMooreAlgorithm";
+        public string GetName() => "BoyerMooreAlgorithm";
         public IEnumerable<int> IndexesOf(string pattern, string text)
         {
             //throw new NotImplementedException();

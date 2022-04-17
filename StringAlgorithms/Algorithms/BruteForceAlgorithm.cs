@@ -4,6 +4,7 @@ namespace StringAlgorithms
 {
     public class BruteForceAlgorithm : ISubstringSearch
     {
+        public string GetName() => "BruteForceAlgorithm";
         public IEnumerable<int> IndexesOf(string pattern, string text)
         {
             int m = pattern.Length;
