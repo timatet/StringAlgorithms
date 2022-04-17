@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace StringAlgorithms
 {
-    public class RabinKarpAlgorithm
+    public class RabinKarpAlgorithm : ISubstringSearch
     {
-
+        public IEnumerable<int> IndexesOf(string pattern, string text)
+        {
+            //throw new NotImplementedException();
+            return new List<int>();
+        }
     }
 }

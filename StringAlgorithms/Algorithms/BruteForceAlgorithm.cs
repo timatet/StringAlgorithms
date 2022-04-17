@@ -21,8 +21,8 @@ namespace StringAlgorithms
                     }
                 }
                 if (SubStringIsEqual)
-                { 
-                    shiftCollection.Add(shift); 
+                {
+                    shiftCollection.Add(shift);
                 }
             }
 
