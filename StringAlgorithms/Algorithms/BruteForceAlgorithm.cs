@@ -2,6 +2,9 @@
 
 namespace StringAlgorithms
 {
+    /// <summary>
+    /// The simplest substring search algorithm. Complexity: O((n-m+1)*m), n - text length, m - substring length
+    /// </summary>
     public class BruteForceAlgorithm : ISubstringSearch
     {
         public string GetName() => "BruteForceAlgorithm";
