@@ -76,7 +76,7 @@ namespace SubstringSearchingApp
 
                 var algmName = algm.GetName();
                 var whiteSpaces = GetWhiteSpaces(25 - algmName.Length);
-                Console.WriteLine("{0}:{1}{2}ticks;\tFound {3} matches.", algmName, whiteSpaces, stopwatch.ElapsedTicks, indexes.Count());
+                Console.WriteLine("{0}:{1}{2}ms;\tFound {3} matches.", algmName, whiteSpaces, stopwatch.ElapsedMilliseconds, indexes.Count());
             }
             Console.WriteLine();
         }

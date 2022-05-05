@@ -12,11 +12,15 @@ namespace StringAlgorithmsUnitTest
         [InlineData("aa", "aaaaaa", new int[] { 0, 1, 2, 3, 4 })]
         [InlineData("aa", "aabaaa", new int[] { 0, 3, 4 })]
         [InlineData("abc", "abcabcabc", new int[] { 0, 3, 6 })]
+        [InlineData("дата", "метадата", new int[] { 4 })]
+        [InlineData("данные", "данные", new int[] { 0 })]
+        [InlineData("данные", "денные", new int[] { })]
         public void SearchTest(string pattern, string text, IEnumerable<int> expectedPositions)
         {
             var algms = new List<ISubstringSearch>()
             {
                 new BruteForceAlgorithm(),
+                new BoyerMooreAlgorithm(),
             };
 
             foreach (var algm in algms)
