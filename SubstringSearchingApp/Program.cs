@@ -20,7 +20,7 @@ namespace SubstringSearchingApp
         [STAThread]
         static void Main(string[] args)
         {
-            InitAlgms();
+            //InitAlgms();
             string pathToText;
             if (args.Length > 0)
             {

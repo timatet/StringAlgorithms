@@ -1,15 +1,12 @@
-﻿using System.Collections.Generic;
-using System.Globalization;
-using System.Text;
-using System.Threading;
+﻿using System;
+using System.Collections.Generic;
 
 namespace StringAlgorithms
 {
     public class BoyerMooreAlgorithm : ISubstringSearch
     {
-        //int[] stopCharsOffsetTable;
-        Dictionary<char, int> stopCharsOffsetTable;
-        int universalOffset;
+        int[] stopCharsOffsetTable;
+        int[] goodSuffixOffsetTable;
         public string GetName() => "BoyerMooreAlgorithm";
 
         /// <summary>
@@ -19,65 +16,96 @@ namespace StringAlgorithms
         public void InitStopCharsOffsetTable(string pattern)
         {
             int patternLength = pattern.Length;
-            stopCharsOffsetTable = new Dictionary<char, int>();
-            universalOffset = patternLength;
+            stopCharsOffsetTable = new int[2048];
 
-            for (int i = patternLength - 2, offset = 1; i >= 0; i--, offset++)
+            for (int i = 0; i < 2048; i++)
             {
-                if (!stopCharsOffsetTable.ContainsKey(pattern[i]))
-                    stopCharsOffsetTable.Add(pattern[i], offset);
+                stopCharsOffsetTable[i] = patternLength - 1;
+            }
+
+            int lengthStringWithoutLastChar = patternLength - 1;
+            for (int i = 0; i < lengthStringWithoutLastChar; i++)
+            {
+                stopCharsOffsetTable[pattern[i]] = lengthStringWithoutLastChar - i - 1;
             }
         }
 
-        private bool CheckStringAtIndex(int index, string pattern, string text)
+        public void InitGoodSuffixOffsetTable(string pattern)
         {
             int patternLength = pattern.Length;
-            for (int i = patternLength; i > 0; i--)
+            goodSuffixOffsetTable = new int[pattern.Length + 1];
+            int[] borderPositions = new int[pattern.Length + 1];
+
+            int i = pattern.Length;
+            int j = pattern.Length + 1;
+
+            borderPositions[i] = j;
+
+            while (i > 0)
             {
-                if (pattern[i - 1] != text[index--])
-                    return false;
+                while (j <= patternLength && pattern[i - 1] != pattern[j - 1])
+                {
+                    if (goodSuffixOffsetTable[j] == 0)
+                    {
+                        goodSuffixOffsetTable[j] = j - i;
+                    }
+
+                    j = borderPositions[j];
+                }
+
+                borderPositions[--i] = --j;
             }
 
-            return true;
-        }
+            int prefixBorder = borderPositions[0];
 
-        private int GetOffset(int index, string pattern, string text)
-        {
-            if (pattern[pattern.Length - 1] != text[index])
+            for (int k = 0; k <= patternLength; k++)
             {
-                if (!stopCharsOffsetTable.ContainsKey(text[index]))
-                    return universalOffset;
-                return stopCharsOffsetTable[text[index]];
-            } else
-            {
-                if (!stopCharsOffsetTable.ContainsKey(pattern[pattern.Length - 1]))
-                    return universalOffset;
-                return stopCharsOffsetTable[pattern[pattern.Length - 1]];
+                if (goodSuffixOffsetTable[k] == 0)
+                {
+                    goodSuffixOffsetTable[k] = prefixBorder;
+                }
+
+                if (k == prefixBorder)
+                {
+                    prefixBorder = borderPositions[prefixBorder];
+                }
             }
         }
 
         public IEnumerable<int> IndexesOf(string pattern, string text)
         {
             List<int> matchesIndexes = new List<int>();
+
+            InitStopCharsOffsetTable(pattern);
+            InitGoodSuffixOffsetTable(pattern);
+
             int textLength = text.Length;
             int patternLength = pattern.Length;
-            InitStopCharsOffsetTable(pattern);
 
-            int endOfPatternInTextIndex = patternLength - 1;
-
-            while (endOfPatternInTextIndex < textLength)
+            int IndexPatternOccurance = 0;
+            while (IndexPatternOccurance + patternLength - 1 < textLength)
             {
-                bool patternIsMatch = CheckStringAtIndex(endOfPatternInTextIndex, pattern, text);
-                if (!patternIsMatch)
+                //Находим позицию начала совпашего суффикса
+                int matchesCountOccuranceIndex = patternLength - 1;
+                while (matchesCountOccuranceIndex >= 0 &&
+                    pattern[matchesCountOccuranceIndex] == text[IndexPatternOccurance + matchesCountOccuranceIndex])
                 {
-                    int offset = GetOffset(endOfPatternInTextIndex, pattern, text);
-                    endOfPatternInTextIndex += offset;
+                    matchesCountOccuranceIndex--;
                 }
-                else
+
+                //Слово полностью совпало
+                if (matchesCountOccuranceIndex < 0)
                 {
-                    matchesIndexes.Add(endOfPatternInTextIndex - patternLength + 1);
-                    endOfPatternInTextIndex++;
+                    matchesIndexes.Add(IndexPatternOccurance);
                 }
+
+                int stopCharOffset = -1;
+                if (matchesCountOccuranceIndex > 0)
+                    stopCharOffset = stopCharsOffsetTable[text[IndexPatternOccurance + matchesCountOccuranceIndex]];
+
+                //Передвигаем курсор опираясь на максимальных сдиг
+                IndexPatternOccurance += Math.Max(stopCharOffset, 
+                    goodSuffixOffsetTable[matchesCountOccuranceIndex + 1]);
             }
 
             return matchesIndexes;
@@ -85,7 +113,8 @@ namespace StringAlgorithms
 
         public BoyerMooreAlgorithm()
         {
-            stopCharsOffsetTable = new Dictionary<char, int>();
+            stopCharsOffsetTable = new int[2048];
+            goodSuffixOffsetTable = new int[2048];
         }
     }
 }

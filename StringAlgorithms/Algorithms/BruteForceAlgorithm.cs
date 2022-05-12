@@ -24,6 +24,7 @@ namespace StringAlgorithms
                         SubStringIsEqual = false;
                     }
                 }
+
                 if (SubStringIsEqual)
                 {
                     shiftCollection.Add(shift);

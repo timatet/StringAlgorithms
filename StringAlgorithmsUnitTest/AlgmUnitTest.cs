@@ -29,5 +29,14 @@ namespace StringAlgorithmsUnitTest
                 Assert.Equal(expectedPositions, actual);
             }
         }
+
+        [Fact]
+        public void TestTest()
+        {
+            var bm = new BoyerMooreAlgorithm();
+            bm.InitStopCharsOffsetTable("teammast");
+
+
+        }
     }
 }

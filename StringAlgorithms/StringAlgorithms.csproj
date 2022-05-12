@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FilesWithText\Anna_Karenina.txt" />
+    <Content Include="FilesWithText\DNK.txt" />
     <Content Include="FilesWithText\Moya_ona.txt" />
     <Content Include="FilesWithText\WarAndWorldFull.txt" />
   </ItemGroup>
