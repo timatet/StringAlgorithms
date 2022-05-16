@@ -21,6 +21,7 @@ namespace StringAlgorithmsUnitTest
             {
                 new BruteForceAlgorithm(),
                 new BoyerMooreAlgorithm(),
+                new RabinKarpAlgorithm()
             };
 
             foreach (var algm in algms)
