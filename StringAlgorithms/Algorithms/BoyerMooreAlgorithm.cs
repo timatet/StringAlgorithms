@@ -16,9 +16,9 @@ namespace StringAlgorithms
         public void InitStopCharsOffsetTable(string pattern)
         {
             int patternLength = pattern.Length;
-            stopCharsOffsetTable = new int[2048];
+            stopCharsOffsetTable = new int[10000];
 
-            for (int i = 0; i < 2048; i++)
+            for (int i = 0; i < 10000; i++)
             {
                 stopCharsOffsetTable[i] = patternLength - 1;
             }
@@ -113,7 +113,7 @@ namespace StringAlgorithms
 
         public BoyerMooreAlgorithm()
         {
-            stopCharsOffsetTable = new int[2048];
+            stopCharsOffsetTable = new int[5096];
             goodSuffixOffsetTable = new int[2048];
         }
     }
