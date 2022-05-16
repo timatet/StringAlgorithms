@@ -29,8 +29,42 @@ namespace StringAlgorithms
         }
         public IEnumerable<int> IndexesOf(string pattern, string text)
         {
-            //throw new NotImplementedException();
-            return new List<int>();
+            List<int> matchesIndexes = new List<int>();
+
+            var prefixFunction = PrefixFunction(pattern);
+
+            int textLength = text.Length;
+            int patternLength = pattern.Length;
+
+            int i = 0, j = 0;
+
+            while (i < textLength)
+            {
+                if (pattern[j] == text[i])
+                {
+                    j++;
+                    i++;
+                }
+
+                if (j == patternLength)
+                {
+                    matchesIndexes.Add(i - j);
+                    j = prefixFunction[j - 1];
+                }
+                else if (i < textLength && pattern[j] != text[i])
+                {
+                    if (j != 0)
+                    {
+                        j = prefixFunction[j - 1];
+                    }
+                    else
+                    {
+                        i += 1;
+                    }
+                }
+            }
+
+            return matchesIndexes;
         }
     }
 }

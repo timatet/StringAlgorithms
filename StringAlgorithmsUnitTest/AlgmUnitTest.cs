@@ -7,7 +7,6 @@ namespace StringAlgorithmsUnitTest
     public class AlgmUnitTest
     {
         [Theory]
-        [InlineData("", "", new int[] { 0 })]
         [InlineData("a", "aaa", new int[] { 0, 1, 2 })]
         [InlineData("aa", "aaaaaa", new int[] { 0, 1, 2, 3, 4 })]
         [InlineData("aa", "aabaaa", new int[] { 0, 3, 4 })]
@@ -21,6 +20,7 @@ namespace StringAlgorithmsUnitTest
             {
                 new BruteForceAlgorithm(),
                 new BoyerMooreAlgorithm(),
+                new KMPAlgorithm(),
             };
 
             foreach (var algm in algms)
@@ -33,8 +33,8 @@ namespace StringAlgorithmsUnitTest
         [Fact]
         public void TestTest()
         {
-            var bm = new BoyerMooreAlgorithm();
-            bm.InitStopCharsOffsetTable("teammast");
+            var bm = new KMPAlgorithm();
+            bm.IndexesOf("данные", "данные");
 
 
         }

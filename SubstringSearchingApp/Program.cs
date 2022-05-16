@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 
 namespace SubstringSearchingApp
 {
@@ -20,7 +21,7 @@ namespace SubstringSearchingApp
         [STAThread]
         static void Main(string[] args)
         {
-            //InitAlgms();
+            InitAlgms();
             string pathToText;
             if (args.Length > 0)
             {
@@ -42,8 +43,10 @@ namespace SubstringSearchingApp
             string text = reader.ReadToEnd();
             reader.Close();
 
+            Console.WriteLine("To select other text leave the field empty and press Enter. \n" +
+                    "To exit, leave the field of file selection empty.");
+
             string wordForSearching = null;
-            Console.WriteLine("Enter the words to search for. To exit, leave the field empty.");
             while (wordForSearching != string.Empty)
             {
                 Console.Write("Enter word for searching: ");
@@ -51,7 +54,7 @@ namespace SubstringSearchingApp
 
                 if (string.IsNullOrEmpty(wordForSearching))
                 {
-                    return;
+                    return; //возвращаемся в меню выбора файла
                 }
 
                 SearchString(wordForSearching, text);
@@ -61,7 +64,7 @@ namespace SubstringSearchingApp
         {
             foreach (var algm in algorithms)
             {
-                algm.IndexesOf("", "");
+                algm.IndexesOf("INIT", "INIT");
             }
         }
         static void SearchString(string pattern, string text)
