@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Threading;
 
 namespace SubstringSearchingApp
 {
@@ -29,16 +28,9 @@ namespace SubstringSearchingApp
             }
             else
             {
-                Console.Write("Enter path to text: ");
-                OpenFileDialog openFileDialog = new OpenFileDialog();
-                if (openFileDialog.ShowDialog() != true)
-                {
-                    return;
-                }
-                pathToText = openFileDialog.FileName;
+                pathToText = SelectFile("text");
             }
 
-            Console.WriteLine(pathToText);
             StreamReader reader = new StreamReader(pathToText);
             string text = reader.ReadToEnd();
             reader.Close();
@@ -54,11 +46,61 @@ namespace SubstringSearchingApp
 
                 if (string.IsNullOrEmpty(wordForSearching))
                 {
-                    return; //возвращаемся в меню выбора файла
+                    Console.Write("You want to select file with words for searching?\n" +
+                        "('y' as yes, 'q' to quit OR any string to continue) : ");
+                    string inp = Console.ReadLine();
+                    if (inp == "y")
+                    {
+                        string pathToWords = SelectFile("words for searching");
+                        var words = GetWords(pathToWords);
+                        foreach (var word in words)
+                        {
+                            SearchString(word, text);
+                        }
+
+                        wordForSearching = " ";
+                        continue;
+                    } else if (inp == "q")
+                    {
+                        return;
+                    }
+
+                    pathToText = SelectFile("text");
+
+                    if (string.IsNullOrEmpty(pathToText))
+                    {
+                        return;
+                    }
+
+                    reader = new StreamReader(pathToText);
+                    text = reader.ReadToEnd();
+                    reader.Close();
+
+                    wordForSearching = " ";
+                    continue;
                 }
 
                 SearchString(wordForSearching, text);
             }
+        }
+        static string[] GetWords(string path)
+        {
+            StreamReader reader = new StreamReader(path);
+            string[] words = reader.ReadToEnd().Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).ToArray();
+            reader.Close();
+            return words;
+        }
+        static string SelectFile(string loc)
+        {
+            Console.Write("Enter path to {0}: ", loc);
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            if (openFileDialog.ShowDialog() != true)
+            {
+                return string.Empty;
+            }
+
+            Console.WriteLine(openFileDialog.FileName);
+            return openFileDialog.FileName;
         }
         static void InitAlgms()
         {
@@ -70,6 +112,7 @@ namespace SubstringSearchingApp
         static void SearchString(string pattern, string text)
         {
             Console.WriteLine("**********************************************************");
+            Console.WriteLine("Looking for the word \"{0}\".", pattern);
             Stopwatch stopwatch = new Stopwatch();
             foreach (var algm in algorithms)
             {

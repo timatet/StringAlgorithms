@@ -50,8 +50,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="FilesWithText\Anna_Karenina.txt" />
+    <Content Include="FilesWithText\borodino.txt" />
     <Content Include="FilesWithText\DNK.txt" />
     <Content Include="FilesWithText\Moya_ona.txt" />
+    <Content Include="FilesWithText\NamesHeroesWorAndWorld.txt" />
     <Content Include="FilesWithText\WarAndWorldFull.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
