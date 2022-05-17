@@ -15,7 +15,7 @@ namespace SubstringSearchingApp
             new BruteForceAlgorithm(),
             new BoyerMooreAlgorithm(),
             new KMPAlgorithm(),
-            new RabinKarpAlgorithm(),
+            new RabinKarpAlgorithm(13, 7),
         };
         [STAThread]
         static void Main(string[] args)
